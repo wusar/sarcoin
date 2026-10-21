@@ -21,7 +21,7 @@ using util::Join;
  * for both bitcoind and bitcoin-qt, to make it harder for attackers to
  * target servers or GUI users specifically.
  */
-const std::string UA_NAME("Satoshi");
+const std::string UA_NAME("SarcoinDev");
 
 
 #include <bitcoin-build-info.h>
@@ -32,7 +32,8 @@ const std::string UA_NAME("Satoshi");
 //   - "// No build information available", if proper git information is not available
 
 // git will expand the next line to "#define GIT_COMMIT_ID ..." inside archives:
-//$Format:%n#define GIT_COMMIT_ID "%H"$
+//
+#define GIT_COMMIT_ID "9be056a8a72b624dae9623b2f7bded92c2a21c91"
 
 #ifdef BUILD_GIT_TAG
     #define BUILD_DESC BUILD_GIT_TAG

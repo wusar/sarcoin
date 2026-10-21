@@ -139,6 +139,10 @@ std::unique_ptr<const CChainParams> CreateChainParams(const ArgsManager& args, c
 
 void SelectParams(const ChainType chain)
 {
+    // Parameter objects are also built for help text; reject only actual selection.
+    if (chain != ChainType::REGTEST) {
+        throw std::runtime_error("Sarcoin development build requires -regtest; public mainnet is not implemented.");
+    }
     SelectBaseParams(chain);
     globalChainParams = CreateChainParams(gArgs, chain);
 }
