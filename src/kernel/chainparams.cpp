@@ -564,7 +564,8 @@ public:
         m_chain_type = ChainType::REGTEST;
         consensus.signet_blocks = false;
         consensus.signet_challenge.clear();
-        consensus.nSubsidyHalvingInterval = 150;
+        // Sarcoin development chain: Bitcoin-like issuance, not mainnet parameters.
+        consensus.nSubsidyHalvingInterval = 210000;
         consensus.BIP34Height = 1; // Always active unless overridden
         consensus.BIP34Hash = uint256();
         consensus.BIP65Height = 1;  // Always active unless overridden
@@ -596,11 +597,11 @@ public:
         consensus.nMinimumChainWork = uint256{};
         consensus.defaultAssumeValid = uint256{};
 
-        pchMessageStart[0] = 0xfa;
-        pchMessageStart[1] = 0xbf;
-        pchMessageStart[2] = 0xb5;
-        pchMessageStart[3] = 0xda;
-        nDefaultPort = 18444;
+        pchMessageStart[0] = 0x73;
+        pchMessageStart[1] = 0x61;
+        pchMessageStart[2] = 0x72;
+        pchMessageStart[3] = 0xd1;
+        nDefaultPort = 39444;
         nPruneAfterHeight = opts.fastprune ? 100 : 1000;
         m_assumed_blockchain_size = 0;
         m_assumed_chain_state_size = 0;
@@ -631,14 +632,16 @@ public:
             consensus.vDeployments[deployment_pos].min_activation_height = version_bits_params.min_activation_height;
         }
 
-        genesis = CreateGenesisBlock(1296688602, 2, 0x207fffff, 1, 50 * COIN);
+        // Reproducible via sarcoin_tools/genesis.py. Genesis output is unspendable.
+        genesis = CreateGenesisBlock("Sarcoin 20/Oct/2026 - Independent development chain",
+                                    CScript() << OP_RETURN, 1792454400, 1, 0x207fffff, 1, 50 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256{"0f9188f13cb7b2c71f2a335e3a4fc328bf5beb436012afca590b1a11466e2206"});
-        assert(genesis.hashMerkleRoot == uint256{"4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b"});
+        assert(consensus.hashGenesisBlock == uint256{"062ff332a9aec7ee65b1e84f503aad64b2bafd4c17d98825bcb9173a5f8b0eb2"});
+        assert(genesis.hashMerkleRoot == uint256{"faa5baa958611c9e29f13aed68c2ea564173bd1d129af5b5e3e7cb9684d90902"});
 
         vFixedSeeds.clear(); //!< Regtest mode doesn't have any fixed seeds.
         vSeeds.clear();
-        vSeeds.emplace_back("dummySeed.invalid.");
+        // Sarcoin devnet has no public bootstrap nodes.
 
         fDefaultConsistencyChecks = true;
         m_is_mockable_chain = true;
@@ -678,7 +681,14 @@ public:
         base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x35, 0x87, 0xCF};
         base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x35, 0x83, 0x94};
 
-        bech32_hrp = "bcrt";
+        base58Prefixes[PUBKEY_ADDRESS] = {63};
+        base58Prefixes[SCRIPT_ADDRESS] = {125};
+        base58Prefixes[SECRET_KEY] = {191};
+        base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x53, 0x41, 0x52};
+        base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x53, 0x41, 0x53};
+        // Upstream snapshot hashes refer to another chain and must not be trusted.
+        m_assumeutxo_data.clear();
+        bech32_hrp = "sarcrt";
 
         // Copied from Testnet4.
         m_headers_sync_params = HeadersSyncParams{
