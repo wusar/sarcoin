@@ -27,3 +27,8 @@ target/
 /guix-build-*
 
 /ci/scratch/
+# Sarcoin development artifacts: never commit wallets, cookies, binaries or chain data.
+/sarcoin-local/
+/sarcoin-build/
+/sarcoin-artifacts/
+__pycache__/
