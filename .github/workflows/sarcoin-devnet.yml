@@ -1,0 +1,15 @@
+name: Sarcoin development chain
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  smoke:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y build-essential cmake pkgconf python3 libboost-dev libevent-dev libsqlite3-dev
+      - run: bash sarcoin_tools/build.sh
+      - run: python3 sarcoin_tools/genesis.py
+      - run: python3 sarcoin_tools/devnet_demo.py --bindir build/bin --data-root sarcoin-local --report sarcoin-local/report.json
