@@ -1,0 +1,11 @@
+{
+  "expected_rejection": true,
+  "rejection_verified": true,
+  "observed_result": {
+    "passed": false,
+    "network": "sarcoin-devnet",
+    "stage": "startup",
+    "genesis": "062ff332a9aec7ee65b1e84f503aad64b2bafd4c17d98825bcb9173a5f8b0eb2",
+    "error_type": "RuntimeError"
+  }
+}

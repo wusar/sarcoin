@@ -1,0 +1,18 @@
+{
+  "default-main": {
+    "exit_code": 1,
+    "blocked": true
+  },
+  "-testnet": {
+    "exit_code": 1,
+    "blocked": true
+  },
+  "-testnet4": {
+    "exit_code": 1,
+    "blocked": true
+  },
+  "-signet": {
+    "exit_code": 1,
+    "blocked": true
+  }
+}
